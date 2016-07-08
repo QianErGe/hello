@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-
+what a fucking and  day
 int iMax( int iNum1, int iNum2 )
 {
 	return iNum1 > iNum2?iNum1:iNum2;
