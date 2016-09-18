@@ -11,3 +11,4 @@ int main()
 	cout << "the max is :" << iMax(iNum1, iNum2) << endl;
 	return 0;
 }
+// add zhaoq
