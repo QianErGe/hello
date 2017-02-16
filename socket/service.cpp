@@ -64,9 +64,10 @@ int main()
 		exit(-1);
 	}
 
-	char szBuf[BUFSIZE+1] = {0};
+	char szBuf[BUFSIZE] = {0};
 	while(1)
 	{
+		cout << "begin..." << endl;
 		// 6 read buf
 		memset( szBuf, 0, sizeof(szBuf) );
 		iRes = recv( iConnetFd, szBuf, sizeof(szBuf), 0);
@@ -86,6 +87,26 @@ int main()
 			send( iConnetFd, szBuf, sizeof(szBuf), 0 );
 		}
 		// printf(" no client ...");
+		int i = 1024*3;
+		while( i>0 )
+		{
+			iRes = recv( iConnetFd, szBuf, sizeof(szBuf), 0 );
+			if ( iRes <= 0 )
+			{
+				cout << "error ..." << endl;
+				return 0;
+			}
+			i -= iRes; // 将总数据-实际收到的数据a
+			cout << "i :" << i << "iRes:" << iRes << endl;
+			cout << "client: " << szBuf << endl;
+		}
+		cout << "收取完毕，回复客户端" << endl;
+		memset( szBuf, 0, sizeof(szBuf) );
+		scanf("%s", szBuf);
+		cout << "发送的是:" << szBuf << endl;
+		send( iConnetFd, szBuf, sizeof(szBuf), 0 );
+		cout << "完事"<< endl;
+		return 0 ; 
 	}
 
 	close(iConnetFd);

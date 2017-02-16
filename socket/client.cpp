@@ -26,6 +26,7 @@
 
 using namespace std;
 #define MAX_SIZE 1024
+void vSend( int client_fd );
 
 int main()
 {
@@ -55,7 +56,9 @@ int main()
     }
 
     // 4 send
-    char szBuf[MAX_SIZE+1] = {0};
+	vSend( client_fd );
+#if 0
+	char szBuf[MAX_SIZE+1] = {0};
     while(1)
     {
     	cin >>  szBuf;
@@ -80,7 +83,57 @@ int main()
 	    }
 	    printf(" now please reply...");
     }
-    
+#endif
     close(client_fd);
 	return 0;
+}
+void vSend( int client_fd )
+{
+	int iRes = 0;
+    char szBuf[MAX_SIZE] = {0};
+	int i = 3;
+	while(1)
+    {
+		cin >> szBuf;
+		send( client_fd, szBuf, sizeof(szBuf), 0 );// 模仿CIP header
+		recv( client_fd, szBuf, sizeof(szBuf),0 );
+		cout << "server say:" << szBuf << endl;
+	
+
+	// 然后将多包数据进行发送
+		while(i)
+		{
+			i--;
+			cin >> szBuf;
+			iRes = send(client_fd, szBuf, sizeof(szBuf), 0);
+			if ( iRes < 0 )
+			{
+				perror("send error...");
+				exit(-1);
+			}
+		}
+		cout << "over ... wait for server" << endl;
+	    // 5 recv 收取服务端的反馈
+		while(1)
+		{
+
+		memset( szBuf, 0, sizeof(szBuf) );
+	    iRes = recv( client_fd, szBuf, sizeof(szBuf),0 );
+	    if (iRes > 0)
+	    {
+			
+			printf(" this is from server :%s\n", szBuf );
+	    	if (strcmp(szBuf, "byebye") == 0)
+			{
+				printf("%s\n", "now exit...");
+				close(client_fd);
+				return ;
+			}
+		printf(" 收到最终回复:%s...:%d", szBuf, iRes);
+	    break;
+		}
+		}
+		break;
+    }
+    
 }
