@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding=utf-8 -*-
-#adsd this aaaaaaaaaaisaaaawhat 
+# this is what 
 from datetime import datetime  as dt
 from datetime import timedelta
 from pytz import timezone
