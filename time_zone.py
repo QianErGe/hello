@@ -1,7 +1,5 @@
 #!/usr/bin/python
 # -*- coding=utf-8 -*-
-# aaaa this is whataaaa 
-from datetime import datetime  as dt
 from datetime import timedelta
 from pytz import timezone
 import pytz
